@@ -1,0 +1,662 @@
+{
+	"info": {
+		"_postman_id": "737e3b1c-6307-4d18-a54d-56ba10c22c2c",
+		"name": "Place_Order",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "send_smscode",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "3738054f-250d-4a44-b19c-6b65e76cc62b",
+						"exec": [
+							"var response = JSON.parse(responseBody);",
+							"var need = response.data;",
+							"",
+							"postman.setEnvironmentVariable(\"smscode\",need.smscode);",
+							"",
+							"pm.test(\"send_smscode\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"Success\");",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"phone\":\"{{telephone}}\",\n  \"telephone_code\": \"91\"\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/api/v1.0/reseller/sms",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"v1.0",
+						"reseller",
+						"sms"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "access_token",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "dd143efb-cb61-42d6-8b2a-df3425bd1d63",
+						"exec": [
+							"var response = JSON.parse(responseBody);",
+							"var need = response.data;",
+							"",
+							"postman.setEnvironmentVariable(\"token\",need.token);",
+							"pm.test(\"access_token\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"Login success\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"phone\": \"{{telephone}}\",\n  \"smscode\": \"{{smscode}}\",\n  \"device_id\": \"string\"\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/api/v1.0/reseller/sms/active",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"v1.0",
+						"reseller",
+						"sms",
+						"active"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "add_cart",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "351608c1-bba9-40e5-8ac3-8b746eab5ef2",
+						"exec": [
+							"pm.test(\"add 2 unit products into cart\", function() {",
+							"    pm.expect(pm.response.text()).to.include(\"add to cart success\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "token",
+						"value": "{{token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"offer_id\": 10020,\n  \"num\": 2\n}\n"
+				},
+				"url": {
+					"raw": "{{base_url}}/api/v1.0/reseller/cart",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"v1.0",
+						"reseller",
+						"cart"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete_cart",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "819ef038-325a-4aaf-9ae1-6fad34cd4a04",
+						"exec": [
+							"pm.test(\"delete 2 unit products into cart\", function() {",
+							"    pm.expect(pm.response.text()).to.include(\"delete  cart success\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "token",
+						"value": "{{token}}",
+						"type": "text"
+					},
+					{
+						"key": "",
+						"value": "",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"offer_id\": 10020\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/api/v1.0/reseller/cart",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"v1.0",
+						"reseller",
+						"cart"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "add_cart",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "eecdd7fd-4def-4419-a2a6-c924187020d6",
+						"exec": [
+							"pm.test(\"add 4 unit products into cart\", function() {",
+							"    pm.expect(pm.response.text()).to.include(\"add to cart success\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "token",
+						"value": "{{token}}",
+						"type": "text"
+					},
+					{
+						"key": "",
+						"value": "",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"offer_id\": 10020,\n  \"num\": 4\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/api/v1.0/reseller/cart",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"v1.0",
+						"reseller",
+						"cart"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "modify_cart",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "c2d947ff-27be-4c84-b267-b064245ab215",
+						"exec": [
+							"pm.test(\"modify to 2 unit products into cart\", function() {",
+							"    pm.expect(pm.response.text()).to.include(\"modify cart success\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "app_version_code",
+						"value": "20",
+						"type": "text"
+					},
+					{
+						"key": "token",
+						"value": "{{token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"offer_id\":10020,\n\t\"offer_origin_id\":10020,\n\t\"num\":2\n\t\n\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/api/v1.0/reseller/cart",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"v1.0",
+						"reseller",
+						"cart"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "place_cod_order",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "18f92063-39c2-4661-8f12-5380b6519356",
+						"exec": [
+							"var response = JSON.parse(responseBody);",
+							"var need = response.data;",
+							"",
+							"postman.setEnvironmentVariable(\"order_id\",need.order_id_list[0]);",
+							"pm.test(\"place_cod_order\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"Place order succeed\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "token",
+						"value": "{{token}}",
+						"type": "text"
+					},
+					{
+						"key": "app_version_code",
+						"value": "{{app_version_code}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"consumer_id\":130,\n\"order_item\":[{\"final_customer_price\":700,\n\"num\":2,\"offer_id\":10020}],\n\"phone\":\"3333333333\",\n\"select_id\":1,\n\"rzy_order_number\":\"\",\n\"email\":\"waymoreapp@gmail.com\"}"
+				},
+				"url": {
+					"raw": "{{base_url}}/api/v1.0/reseller/generate_order",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"v1.0",
+						"reseller",
+						"generate_order"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "cancel_cod_order",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "5938e142-e23e-40f0-8b04-454cb9d74b58",
+						"exec": [
+							"pm.test(\"cancel order\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"Order cancelled successfully!\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "token",
+						"type": "text",
+						"value": "{{token}}"
+					},
+					{
+						"key": "app_version_code",
+						"value": "{{app_version_code}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"order_id\": {{order_id}},\n  \"cancel_reason\": \"It is test order\",\n  \"cancel_note\": \"pls cancel\"\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/api/v1.0/order/app/cancel",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"v1.0",
+						"order",
+						"app",
+						"cancel"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "add_cart",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "d1e33212-26c7-4690-9868-51ac75fa0485",
+						"exec": [
+							"pm.test(\"add 2 unit products into cart\", function() {",
+							"    pm.expect(pm.response.text()).to.include(\"add to cart success\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "token",
+						"value": "{{token}}",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"offer_id\": 10020,\n  \"num\": 2\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/api/v1.0/reseller/cart",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"v1.0",
+						"reseller",
+						"cart"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "generate_order",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "69115944-9d5f-4db6-a8fe-24ca1aac1a4b",
+						"exec": [
+							"var response = JSON.parse(responseBody);",
+							"var need = response.data;",
+							"",
+							"postman.setEnvironmentVariable(\"order_id\",need.order_id_list[0]);",
+							"pm.test(\"generate_cod_order\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"Place order succeed\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "app_version_code",
+						"value": "{{app_version_code}}",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "token",
+						"value": "{{token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"use_commission\": false,\n    \"order_item\": [\n        {\n            \"final_customer_price\": 700,\n            \"num\": 2,\n            \"offer_id\": 10020\n        }\n    ],\n    \"consumer_id\": 130,\n    \"rzy_order_number\": \"\",\n    \"email\": \"jbhha@qq.com\",\n    \"phone\": \"3333333333\",\n    \"select_id\": 1\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/api/v1.0/reseller/generate_order",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"v1.0",
+						"reseller",
+						"generate_order"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "cancel_cod_order",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "42deec6b-5f43-48ff-ab64-8facfa0ae1be",
+						"exec": [
+							"pm.test(\"cancel order\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"Order cancelled successfully!\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "token",
+						"type": "text",
+						"value": "{{token}}"
+					},
+					{
+						"key": "app_version_code",
+						"value": "20",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"order_id\": {{order_id}},\n  \"cancel_reason\": \"It is test order\",\n  \"cancel_note\": \"pls cancel\"\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/api/v1.0/order/app/cancel",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"v1.0",
+						"order",
+						"app",
+						"cancel"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "place_cod_order_withoutmoney",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "838f920f-6501-4a54-ac28-350afc7c1558",
+						"exec": [
+							"pm.test(\"place order with O RS\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"Please enter an amount greater than or equal to the Order Total\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "token",
+						"type": "text",
+						"value": "{{token}}"
+					},
+					{
+						"key": "app_version_code",
+						"type": "text",
+						"value": "{{app_version_code}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"consumer_id\":130,\n\"order_item\":[{\"final_customer_price\":0,\n\"num\":2,\"offer_id\":10020}],\n\"phone\":\"3333333333\",\n\"select_id\":1,\n\"rzy_order_number\":\"\",\n\"email\":\"waymoreapp@gmail.com\"}"
+				},
+				"url": {
+					"raw": "{{base_url}}/api/v1.0/reseller/generate_order",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"v1.0",
+						"reseller",
+						"generate_order"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

@@ -1,0 +1,541 @@
+{
+	"info": {
+		"_postman_id": "23cc26dc-0937-4bf2-ad7d-4ea9814d501a",
+		"name": "Order_Tab",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "send_smscode",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "3738054f-250d-4a44-b19c-6b65e76cc62b",
+						"exec": [
+							"var response = JSON.parse(responseBody);",
+							"var need = response.data;",
+							"",
+							"postman.setEnvironmentVariable(\"smscode\",need.smscode);",
+							"",
+							"pm.test(\"send_smscode\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"Success\");",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"phone\":\"{{telephone}}\",\n  \"telephone_code\": \"91\"\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/api/v1.0/reseller/sms",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"v1.0",
+						"reseller",
+						"sms"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "access_token",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "dd143efb-cb61-42d6-8b2a-df3425bd1d63",
+						"exec": [
+							"var response = JSON.parse(responseBody);",
+							"var need = response.data;",
+							"",
+							"postman.setEnvironmentVariable(\"token\",need.token);",
+							"pm.test(\"access_token\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"Login success\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"phone\": \"{{telephone}}\",\n  \"smscode\": \"{{smscode}}\",\n  \"device_id\": \"string\"\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/api/v1.0/reseller/sms/active",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"v1.0",
+						"reseller",
+						"sms",
+						"active"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "query_allorder",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "4b77dd67-9bff-4a24-a191-e90fa220be94",
+						"exec": [
+							"var response = JSON.parse(responseBody);",
+							"var need = response.data;",
+							"",
+							"pm.test(\"query_order\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"success\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "token",
+						"value": "{{token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"filter\": {},\n    \"offset\": 0,\n    \"limit\": 20\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/api/v1.0/order/app/list",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"v1.0",
+						"order",
+						"app",
+						"list"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "query_new_order",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "4b77dd67-9bff-4a24-a191-e90fa220be94",
+						"exec": [
+							"var response = JSON.parse(responseBody);",
+							"var need = response.data;",
+							"pm.test(\"query_new_order\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"success\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "token",
+						"value": "{{token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"filter\": {\n        \"order_status\": \"Ordered\"\n    },\n    \"offset\": 0,\n    \"limit\": 20\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/api/v1.0/order/app/list",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"v1.0",
+						"order",
+						"app",
+						"list"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "query_intransit_order",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "4b77dd67-9bff-4a24-a191-e90fa220be94",
+						"exec": [
+							"var response = JSON.parse(responseBody);",
+							"var need = response.data;",
+							"",
+							"pm.test(\"query_intransit_order\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"success\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "token",
+						"type": "text",
+						"value": "{{token}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"filter\": {\n        \"order_status\": \"InTransit\"\n    },\n    \"offset\": 0,\n    \"limit\": 20\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/api/v1.0/order/app/list",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"v1.0",
+						"order",
+						"app",
+						"list"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "query_delivered_order",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "4b77dd67-9bff-4a24-a191-e90fa220be94",
+						"exec": [
+							"var response = JSON.parse(responseBody);",
+							"var need = response.data;",
+							"",
+							"pm.test(\"query_delivered_order\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"success\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "token",
+						"type": "text",
+						"value": "{{token}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"filter\": {\n        \"order_status\": \"Delivered\"\n    },\n    \"offset\": 0,\n    \"limit\": 20\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/api/v1.0/order/app/list",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"v1.0",
+						"order",
+						"app",
+						"list"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "query_return_order",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "4b77dd67-9bff-4a24-a191-e90fa220be94",
+						"exec": [
+							"var response = JSON.parse(responseBody);",
+							"var need = response.data;",
+							"",
+							"pm.test(\"query_return_order\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"success\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "token",
+						"type": "text",
+						"value": "{{token}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"filter\": {\n        \"order_status\": \"Return\"\n    },\n    \"offset\": 0,\n    \"limit\": 20\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/api/v1.0/order/app/list",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"v1.0",
+						"order",
+						"app",
+						"list"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "query_RTO_order",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "4b77dd67-9bff-4a24-a191-e90fa220be94",
+						"exec": [
+							"var response = JSON.parse(responseBody);",
+							"var need = response.data;",
+							"",
+							"pm.test(\"query_RTO_order\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"success\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "token",
+						"type": "text",
+						"value": "{{token}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"filter\": {\n        \"order_status\": \"RTO\"\n    },\n    \"offset\": 0,\n    \"limit\": 20\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/api/v1.0/order/app/list",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"v1.0",
+						"order",
+						"app",
+						"list"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "query_Cancelled_order",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "4b77dd67-9bff-4a24-a191-e90fa220be94",
+						"exec": [
+							"var response = JSON.parse(responseBody);",
+							"var need = response.data;",
+							"",
+							"pm.test(\"query_cancel_order\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"success\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "token",
+						"type": "text",
+						"value": "{{token}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"filter\": {\n        \"order_status\": \"Cancel\"\n    },\n    \"offset\": 0,\n    \"limit\": 20\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/api/v1.0/order/app/list",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"v1.0",
+						"order",
+						"app",
+						"list"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "query_order_detail",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "4b77dd67-9bff-4a24-a191-e90fa220be94",
+						"exec": [
+							"var response = JSON.parse(responseBody);",
+							"var need = response.data;",
+							"",
+							"pm.test(\"query_order_detail\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"success\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "token",
+						"type": "text",
+						"value": "{{token}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"filter\": {\n        \"order_id\": 1615\n    }\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/api/v1.0/order/app/list",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"v1.0",
+						"order",
+						"app",
+						"list"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
